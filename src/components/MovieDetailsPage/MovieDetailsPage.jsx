@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import {
+  useRouteMatch,
+  useParams,
+  Switch,
+  Route,
+  Link,
+  NavLink,
+} from 'react-router-dom';
+import Cast from '../Cast';
+import Reviews from '../Reviews';
+// import PropTypes from 'prop-types';
 import css from './MovieDetailsPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 
@@ -32,36 +41,64 @@ const getValues = movieObj => {
 
 /*Component*/
 const MovieDetailsPage = () => {
-  const params = useParams();
   const [movie, setMovie] = useState({});
+  const { movieId } = useParams();
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     themoviedbApi
-      .fetchMoviesDetails(params.movieId)
+      .fetchMoviesDetails(movieId)
       .then(response => setMovie(response.data))
       .catch(error => console.log(error.message));
-  }, [params.movieId]);
+  }, [movieId]);
 
   const { title, overview, date, votes, genres, poster } = getValues(movie);
+  const isMovie = Object.keys(movie).length;
 
   return (
-    movie && (
+    isMovie && (
       <div className={css.container}>
-        <button className={css.button} type="button">
+        {/* <button className={css.button} type="button">
           Go back
-        </button>
-        <div className={css.movie}>
-          <div className={css.imgThumb}>
-            <img className={css.image} src={poster} alt={title} width="500" />
+        </button> */}
+        <NavLink to="/" className={css.goBackBtn}>
+          Go back
+        </NavLink>
+        <div>
+          <div className={css.movie}>
+            <div className={css.imgThumb}>
+              <img className={css.image} src={poster} alt={title} width="500" />
+            </div>
+            <div className={css.infoThumb}>
+              <h2 className={css.title}>{`${title} (${date})`}</h2>
+              <p className={css.info}>{`User Score: ${votes}`}</p>
+              <h3 className={css.subtitle}>Overview</h3>
+              <p className={css.info}>{overview}</p>
+              <h3 className={css.subtitle}>Genres</h3>
+              <p className={css.info}>{genres}</p>
+            </div>
           </div>
-          <div className={css.infoThumb}>
-            <h2 className={css.title}>{`${title} (${date})`}</h2>
-            <p className={css.info}>{votes}</p>
-            <h3 className={css.subtitle}>Overview</h3>
-            <p className={css.info}>{overview}</p>
-            <h3 className={css.subtitle}>Genres</h3>
-            <p className={css.info}>{genres}</p>
+        </div>
+        <div>
+          <div className={css.additionalInfo}>
+            <h4>Additional information</h4>
+            <ul>
+              <li>
+                <Link to={`${url}/cast`}>Cast</Link>
+              </li>
+              <li>
+                <Link to={`${url}/reviews`}>Reviews</Link>
+              </li>
+            </ul>
           </div>
+          <Switch>
+            <Route path={`${url}/cast`}>
+              <Cast movieId={movieId} />
+            </Route>
+            <Route path={`${url}/reviews`}>
+              <Reviews movieId={movieId} />
+            </Route>
+          </Switch>
         </div>
       </div>
     )
