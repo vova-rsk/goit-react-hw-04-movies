@@ -26,6 +26,7 @@
 .imgThumb {
   max-width: 200px;
   max-height: 260px;
+  overflow: hidden;
 }
 
 .infoThumb {
@@ -36,5 +37,24 @@
   display: block;
   max-width: 100%;
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
+}
+
+.additionalInfo {
+  border-top: 2px #b7b7b7 solid;
+  border-bottom: 2px #b7b7b7 solid;
+}
+
+.goBackBtn {
+  display: inline-block;
+  padding: 1px 4px;
+  font-size: 12px;
+  text-decoration: none;
+  background-color: #d8d5d5;
+  border: 0.5px #000 solid;
+  border-radius: 5px;
+}
+
+.goBackBtn:hover {
+  background-color: #b7b7b7;
 }
