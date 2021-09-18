@@ -53,7 +53,7 @@ const MovieDetailsPage = () => {
   }, [movieId]);
 
   const { title, overview, date, votes, genres, poster } = getValues(movie);
-  const isMovie = Object.keys(movie).length;
+  const isMovie = Boolean(Object.keys(movie));
 
   return (
     isMovie && (

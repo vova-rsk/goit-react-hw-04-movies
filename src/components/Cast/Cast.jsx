@@ -29,7 +29,7 @@ function Cast({ movieId }) {
   };
 
   return (
-    cast.length && (
+    cast && (
       <div>
         <ul>
           {cast.map(({ id, name, character, profile_path: profilePath }) => (

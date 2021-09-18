@@ -2,7 +2,7 @@
 // import css from './PageError.module.css';
 
 function PageError(props) {
-  return <div></div>;
+  return <div>Error</div>;
 }
 
 export default PageError;

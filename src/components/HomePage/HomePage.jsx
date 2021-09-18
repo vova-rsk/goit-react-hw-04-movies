@@ -16,7 +16,7 @@ function HomePage() {
   }, []);
 
   return (
-    trendingMovies.length && (
+    trendingMovies && (
       <div className={css.container}>
         <ul>
           {trendingMovies.map(movie => (
