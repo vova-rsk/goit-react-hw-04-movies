@@ -12,10 +12,7 @@ function Cast({ movieId }) {
   useEffect(() => {
     themoviedbApi
       .fetchMoviesCredits(movieId)
-      .then(response => {
-        const actors = themoviedbApi.profilePathMaker(response.data.cast);
-        setCast(actorsFiltering(actors));
-      })
+      .then(responseData => setCast(actorsFiltering(responseData.data.cast)))
       .catch(error => console.log(error.message));
   }, [movieId]);
 

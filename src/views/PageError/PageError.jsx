@@ -2,7 +2,7 @@
 // import css from './PageError.module.css';
 
 function PageError(props) {
-  return <div>Error</div>;
+  return <div>404 page not found</div>;
 }
 
 export default PageError;

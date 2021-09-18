@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import css from './HomePage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 
 function HomePage() {
-  // const { url, path } = useRouteMatch();
   const [trendingMovies, setTrendingMovies] = useState([]);
-  // console.log(url,path);
 
   useEffect(() => {
     themoviedbApi
       .fetchGetTrending()
-      .then(response => setTrendingMovies(response.data.results))
+      .then(responseData => setTrendingMovies(responseData.data.results))
       .catch(error => console.log(error.message));
   }, []);
 

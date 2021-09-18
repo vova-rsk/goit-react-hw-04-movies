@@ -7,8 +7,8 @@ import {
   Link,
   NavLink,
 } from 'react-router-dom';
-import Cast from '../Cast';
-import Reviews from '../Reviews';
+import Cast from '../../components/Cast';
+import Reviews from '../../components/Reviews';
 // import PropTypes from 'prop-types';
 import css from './MovieDetailsPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
@@ -23,7 +23,7 @@ const getValues = movieObj => {
     release_date: releaseDate,
     overview,
     genres: genresObj,
-    poster_path: posterPath,
+    poster_path: poster,
     vote_average: votesAverage,
   } = movieObj;
 
@@ -31,9 +31,6 @@ const getValues = movieObj => {
   const date = releaseDate ? new Date(releaseDate).getFullYear() : '---';
   const genres = genresObj
     ? genresObj.reduce((acc, item) => [...acc, item.name], []).join(' ')
-    : '';
-  const poster = posterPath
-    ? `https://image.tmdb.org/t/p/w500${posterPath}`
     : '';
 
   return { title, overview, date, votes, genres, poster };

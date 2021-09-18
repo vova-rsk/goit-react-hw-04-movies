@@ -6,39 +6,87 @@ const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const MEDIA_TYPE = 'movie';
 const TIME_WINDOW = 'day';
 
+/*func for fetching trending movies*/
 const fetchGetTrending = async () => {
-  const url = `${BASE_URL}/trending/${MEDIA_TYPE}/${TIME_WINDOW}?api_key=${API_KEY}`;
-  const response = await axios.get(url);
-  return response;
+  axios.defaults.params = { api_key: API_KEY };
+  const url = `${BASE_URL}/trending/${MEDIA_TYPE}/${TIME_WINDOW}`;
+  const data = await axios.get(url);
+  return imagePathCorrection(data, 'trends');
 };
 
-const fetchSearchMovies = () => {};
+/*func for fetching movies by search*/
+const fetchSearchMovies = async query => {
+  axios.defaults.params = {
+    api_key: API_KEY,
+    language: 'en-US',
+    query,
+    page: 1,
+    include_adult: false,
+  };
+  const url = `${BASE_URL}/search/${MEDIA_TYPE}`;
+  const data = await axios.get(url);
+  return imagePathCorrection(data, 'search');
+};
 
+/*func for fetching movie detailed info*/
 const fetchMoviesDetails = async id => {
-  const url = `${BASE_URL}/${MEDIA_TYPE}/${id}?api_key=${API_KEY}&language=en-US`;
-  const response = await axios.get(url);
-  return response;
+  axios.defaults.params = {
+    api_key: API_KEY,
+    language: 'en-US',
+  };
+  const url = `${BASE_URL}/${MEDIA_TYPE}/${id}`;
+  const data = await axios.get(url);
+  return imagePathCorrection(data, 'movieDetails');
 };
 
+/*func for fetching credits for current movie*/
 const fetchMoviesCredits = async id => {
-  const url = `${BASE_URL}/${MEDIA_TYPE}/${id}/credits?api_key=${API_KEY}&language=en-US`;
-  const response = await axios.get(url);
-  return response;
+  axios.defaults.params = {
+    api_key: API_KEY,
+    language: 'en-US',
+  };
+  const url = `${BASE_URL}/${MEDIA_TYPE}/${id}/credits`;
+  const data = await axios.get(url);
+  return imagePathCorrection(data, 'credits');
 };
 
+/*func for fetching reviews for current movie*/
 const fetchMoviesReviews = async id => {
-  const url = `${BASE_URL}/${MEDIA_TYPE}/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`;
-  const response = await axios.get(url);
-  return response;
+  axios.defaults.params = {
+    api_key: API_KEY,
+    language: 'en-US',
+    page: 1,
+  };
+  const url = `${BASE_URL}/${MEDIA_TYPE}/${id}/reviews`;
+  const data = await axios.get(url);
+  return data;
 };
 
-const profilePathMaker = data => {
-  if (!data.length) return data;
-  return data.map(actor => {
-    const { profile_path: path } = actor;
-    const updatedPath = path ? `${BASE_IMG_URL}${path}` : path;
-    return { ...actor, profile_path: updatedPath };
-  });
+/*func for correcting img path for posters or profiles-logo*/
+const imagePathCorrection = (fetchData, type) => {
+  const updatedData = { ...fetchData };
+
+  if (type !== 'movieDetails') {
+    const attributeName = fetchData.data.hasOwnProperty('results')
+      ? 'results'
+      : 'cast';
+    const key = attributeName !== 'results' ? 'profile_path' : 'poster_path';
+    const array = updatedData.data[attributeName].map(item => ({
+      ...item,
+      [key]: item[key] ? BASE_IMG_URL + item[key] : item[key],
+    }));
+
+    updatedData.data[attributeName] = array;
+    return updatedData;
+  } else {
+    const key = 'poster_path';
+
+    if (updatedData.data[key]) {
+      updatedData.data[key] = BASE_IMG_URL + updatedData.data[key];
+    }
+
+    return updatedData;
+  }
 };
 
 const api = {
@@ -47,7 +95,6 @@ const api = {
   fetchMoviesDetails,
   fetchMoviesCredits,
   fetchMoviesReviews,
-  profilePathMaker,
 };
 
 export default api;
