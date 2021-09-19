@@ -9,7 +9,7 @@ import css from './MoviesPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 import MoviesList from '../../components/MoviesList';
 
-function MoviesPage(props) {
+const MoviesPage = () => {
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const { url } = useRouteMatch();
@@ -49,6 +49,6 @@ function MoviesPage(props) {
       </Route>
     </div>
   );
-}
+};
 
 export default MoviesPage;

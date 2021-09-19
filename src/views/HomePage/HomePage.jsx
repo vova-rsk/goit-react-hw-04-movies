@@ -3,7 +3,7 @@ import { useRouteMatch, useLocation } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
 import MoviesList from '../../components/MoviesList';
 
-function HomePage() {
+const HomePage = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const { url } = useRouteMatch();
   const location = useLocation();
@@ -26,6 +26,6 @@ function HomePage() {
       />
     )
   );
-}
+};
 
 export default HomePage;

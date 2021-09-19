@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import css from './MovieCard.module.css';
 
-function MovieCard({
-  movie: { title, poster, date, votes, overview, genres },
-}) {
+const MovieCard = ({ movie }) => {
+  const { title, poster, date, votes, overview, genres } = movie;
   return (
     <div className={css.movie}>
       <div className={css.imgThumb}>
@@ -20,7 +19,7 @@ function MovieCard({
       </div>
     </div>
   );
-}
+};
 
 export default MovieCard;
 

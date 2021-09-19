@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // import css from './Reviews.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 
-function Reviews({ movieId }) {
+const Reviews = ({ movieId }) => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function Reviews({ movieId }) {
       </div>
     );
   }
-}
+};
 
 export default Reviews;
 

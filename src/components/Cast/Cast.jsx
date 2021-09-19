@@ -6,7 +6,7 @@ import defaultProfile from './default-profile.jpeg';
 
 const ACTORS_SHOW_LIMIT = 10;
 
-function Cast({ movieId }) {
+const Cast = ({ movieId }) => {
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function Cast({ movieId }) {
       </div>
     )
   );
-}
+};
 
 export default Cast;
 
