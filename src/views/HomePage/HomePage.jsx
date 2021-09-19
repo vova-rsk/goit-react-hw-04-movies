@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import css from './HomePage.module.css';
+import { useRouteMatch, useLocation } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
+import MoviesList from '../../components/MoviesList';
 
 function HomePage() {
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const { url } = useRouteMatch();
+  const location = useLocation();
 
   useEffect(() => {
     themoviedbApi
@@ -13,17 +15,15 @@ function HomePage() {
       .catch(error => console.log(error.message));
   }, []);
 
+  const currentLocation = location;
+
   return (
     trendingMovies && (
-      <div className={css.container}>
-        <ul>
-          {trendingMovies.map(movie => (
-            <li key={movie.id}>
-              <Link to={`movies/${movie.id}`}>{movie.title}</Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <MoviesList
+        url={`${url}movies`}
+        movies={trendingMovies}
+        hash={currentLocation}
+      />
     )
   );
 }

@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   useRouteMatch,
   useParams,
+  useHistory,
+  useLocation,
   Switch,
   Route,
-  Link,
-  NavLink,
 } from 'react-router-dom';
 import Cast from '../../components/Cast';
 import Reviews from '../../components/Reviews';
 // import PropTypes from 'prop-types';
 import css from './MovieDetailsPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
+import MovieCard from '../../components/MovieCard';
+import MovieAdditionalInfo from '../../components/MovieAdditionalInfo';
 
 /*
  *  function of obtaining the required values in the required
@@ -41,53 +43,47 @@ const MovieDetailsPage = () => {
   const [movie, setMovie] = useState({});
   const { movieId } = useParams();
   const { url } = useRouteMatch();
+  const history = useHistory();
+  const location = useLocation();
+  const prevLocation = useRef(null);
+
+  // useEffect(() => {
+  //   const state = history.location.state;
+  //   if (state) prevLocation.current = state;
+  // }, [history.location.state]);
 
   useEffect(() => {
     themoviedbApi
       .fetchMoviesDetails(movieId)
-      .then(response => setMovie(response.data))
+      .then(responseData => setMovie(responseData.data))
       .catch(error => console.log(error.message));
   }, [movieId]);
 
-  const { title, overview, date, votes, genres, poster } = getValues(movie);
-  const isMovie = Boolean(Object.keys(movie));
+  const handleGoBack = () => {
+    // const { state } = location;
+    // const { pathname, search } = prevLocation.current;
+    // console.log(state.from);
+    // if (state) {
+    //   history.push(state.from);
+    //   return;
+    // }
+    // console.log(history);
+    // history.push({ pathname: pathname, search: search });
+  };
+
+  const isMovie = Object.keys(movie).length;
 
   return (
     isMovie && (
       <div className={css.container}>
-        {/* <button className={css.button} type="button">
-          Go back
-        </button> */}
-        <NavLink to="/" className={css.goBackBtn}>
-          Go back
-        </NavLink>
         <div>
-          <div className={css.movie}>
-            <div className={css.imgThumb}>
-              <img className={css.image} src={poster} alt={title} width="500" />
-            </div>
-            <div className={css.infoThumb}>
-              <h2 className={css.title}>{`${title} (${date})`}</h2>
-              <p className={css.info}>{`User Score: ${votes}`}</p>
-              <h3 className={css.subtitle}>Overview</h3>
-              <p className={css.info}>{overview}</p>
-              <h3 className={css.subtitle}>Genres</h3>
-              <p className={css.info}>{genres}</p>
-            </div>
-          </div>
+          <button className={css.button} type="button" onClick={handleGoBack}>
+            Go back
+          </button>
+          <MovieCard movie={getValues(movie)} />
         </div>
         <div>
-          <div className={css.additionalInfo}>
-            <h4>Additional information</h4>
-            <ul>
-              <li>
-                <Link to={`${url}/cast`}>Cast</Link>
-              </li>
-              <li>
-                <Link to={`${url}/reviews`}>Reviews</Link>
-              </li>
-            </ul>
-          </div>
+          <MovieAdditionalInfo url={url} />
           <Switch>
             <Route path={`${url}/cast`}>
               <Cast movieId={movieId} />

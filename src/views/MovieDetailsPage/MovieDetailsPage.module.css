@@ -6,45 +6,6 @@
   cursor: pointer;
 }
 
-.movie {
-  display: flex;
-  margin-top: 4px;
-}
-
-.title {
-  margin-top: 0;
-}
-
-.subtitle {
-  font-size: 16px;
-}
-
-.info {
-  font-size: 14px;
-}
-
-.imgThumb {
-  max-width: 200px;
-  max-height: 260px;
-  overflow: hidden;
-}
-
-.infoThumb {
-  padding: 20px;
-}
-
-.image {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
-.additionalInfo {
-  border-top: 2px #b7b7b7 solid;
-  border-bottom: 2px #b7b7b7 solid;
-}
-
 .goBackBtn {
   display: inline-block;
   padding: 1px 4px;

@@ -1,24 +1,34 @@
 import { useState } from 'react';
-import { useRouteMatch, useParams, Link, Route } from 'react-router-dom';
+import {
+  useRouteMatch,
+  useHistory,
+  useLocation,
+  Route,
+} from 'react-router-dom';
 import css from './MoviesPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
+import MoviesList from '../../components/MoviesList';
 
 function MoviesPage(props) {
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const { url } = useRouteMatch();
-  const params = useParams();
+  const history = useHistory();
+  const location = useLocation();
 
   const handleSubmit = e => {
     e.preventDefault();
     const currentQuery = query.trim();
     if (!currentQuery) return;
+
+    history.push({ ...location, search: `query=${query}` });
     themoviedbApi
       .fetchSearchMovies(query)
       .then(responseData => setSearchResult(responseData.data.results))
       .catch(error => console.log(error.message));
   };
 
+  const currentLocation = location;
   return (
     <div>
       <div className={css.container}>
@@ -32,19 +42,11 @@ function MoviesPage(props) {
         </form>
       </div>
 
-      {/* <Route path={`${url}&query=${query}`}> */}
-      <div>
+      <Route path={`${url}`}>
         {searchResult && (
-          <ul>
-            {searchResult.map(movie => (
-              <li key={movie.id}>
-                <Link to={`${url}/${movie.id}`}>{movie.title}</Link>
-              </li>
-            ))}
-          </ul>
+          <MoviesList url={url} movies={searchResult} hash={currentLocation} />
         )}
-      </div>
-      {/* </Route> */}
+      </Route>
     </div>
   );
 }
