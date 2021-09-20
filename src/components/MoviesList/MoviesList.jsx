@@ -8,7 +8,6 @@ const MoviesList = ({ url, hash, movies }) => {
       <ul>
         {movies.map(movie => (
           <li key={movie.id} className={css.item}>
-            {/* <NavLink to={`${url}/${movie.id}`} className={css.link}>{movie.title}</NavLink> */}
             <NavLink
               to={{ pathname: `${url}/${movie.id}`, state: { from: hash } }}
               className={css.link}
@@ -27,4 +26,5 @@ export default MoviesList;
 MoviesList.propTypes = {
   url: PropTypes.string.isRequired,
   movies: PropTypes.array.isRequired,
+  hash: PropTypes.object.isRequired,
 };

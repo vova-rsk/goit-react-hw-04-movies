@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   useRouteMatch,
   useHistory,
@@ -16,19 +16,32 @@ const MoviesPage = () => {
   const history = useHistory();
   const location = useLocation();
 
+  /*fetching movies by query-key*/
+  useEffect(() => {
+    const query = new URLSearchParams(location.search).get('query');
+
+    if (query) {
+      themoviedbApi
+        .fetchSearchMovies(query)
+        .then(responseData => {
+          const data = responseData.data.results;
+          if (data) {
+            setSearchResult(data);
+            setQuery('');
+          }
+        })
+        .catch(error => console.log(error.message));
+    }
+  }, [location.search]);
+
+  /*func for form submiting*/
   const handleSubmit = e => {
     e.preventDefault();
     const currentQuery = query.trim();
     if (!currentQuery) return;
-
-    history.push({ ...location, search: `query=${query}` });
-    themoviedbApi
-      .fetchSearchMovies(query)
-      .then(responseData => setSearchResult(responseData.data.results))
-      .catch(error => console.log(error.message));
+    history.push({ ...location, search: `query=${currentQuery}` });
   };
 
-  const currentLocation = location;
   return (
     <div>
       <div className={css.container}>
@@ -44,7 +57,7 @@ const MoviesPage = () => {
 
       <Route path={`${url}`}>
         {searchResult && (
-          <MoviesList url={url} movies={searchResult} hash={currentLocation} />
+          <MoviesList url={url} movies={searchResult} hash={location} />
         )}
       </Route>
     </div>

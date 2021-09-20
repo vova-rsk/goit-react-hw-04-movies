@@ -9,36 +9,11 @@ import {
 } from 'react-router-dom';
 import Cast from '../../components/Cast';
 import Reviews from '../../components/Reviews';
-// import PropTypes from 'prop-types';
 import css from './MovieDetailsPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 import MovieCard from '../../components/MovieCard';
 import MovieAdditionalInfo from '../../components/MovieAdditionalInfo';
 
-/*
- *  function of obtaining the required values in the required
- *  format from the movie object
- */
-const getValues = movieObj => {
-  const {
-    title,
-    release_date: releaseDate,
-    overview,
-    genres: genresObj,
-    poster_path: poster,
-    vote_average: votesAverage,
-  } = movieObj;
-
-  const votes = `${Math.round(votesAverage * 10)}%`;
-  const date = releaseDate ? new Date(releaseDate).getFullYear() : '---';
-  const genres = genresObj
-    ? genresObj.reduce((acc, item) => [...acc, item.name], []).join(' ')
-    : '';
-
-  return { title, overview, date, votes, genres, poster };
-};
-
-/*Component*/
 const MovieDetailsPage = () => {
   const [movie, setMovie] = useState({});
   const { movieId } = useParams();
@@ -46,25 +21,30 @@ const MovieDetailsPage = () => {
   const history = useHistory();
   const location = useLocation();
   const customState = useRef(null);
+  const isMovie = Boolean(Object.keys(movie).length);
 
+  /*Saving location for to go back*/
   useEffect(() => {
     if (location.state) customState.current = { ...location.state };
   }, [location]);
 
+  /*fetch movie by id*/
   useEffect(() => {
     themoviedbApi
       .fetchMoviesDetails(movieId)
-      .then(responseData => setMovie(responseData.data))
+      .then(responseData => {
+        const data = responseData.data;
+        if (data) setMovie(data);
+      })
       .catch(error => console.log(error.message));
   }, [movieId]);
 
+  /*func to return*/
   const handleGoBack = () => {
     customState.current
       ? history.push(customState.current.from)
       : history.push({ pathname: '/movies', search: '' });
   };
-
-  const isMovie = Boolean(Object.keys(movie));
 
   return (
     isMovie && (
@@ -73,7 +53,7 @@ const MovieDetailsPage = () => {
           <button className={css.button} type="button" onClick={handleGoBack}>
             Go back
           </button>
-          <MovieCard movie={getValues(movie)} />
+          <MovieCard movie={movie} />
         </div>
         <div>
           <MovieAdditionalInfo url={url} />
@@ -92,5 +72,3 @@ const MovieDetailsPage = () => {
 };
 
 export default MovieDetailsPage;
-
-MovieDetailsPage.propTypes = {};

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import css from './Reviews.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 
 const Reviews = ({ movieId }) => {
@@ -38,5 +37,5 @@ const Reviews = ({ movieId }) => {
 export default Reviews;
 
 Reviews.propTypes = {
-  movieId: PropTypes.string,
+  movieId: PropTypes.string.isRequired,
 };
