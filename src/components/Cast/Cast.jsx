@@ -9,6 +9,7 @@ const ACTORS_SHOW_LIMIT = 10;
 const Cast = ({ movieId }) => {
   const [cast, setCast] = useState([]);
 
+  /*fetching casts by movie id*/
   useEffect(() => {
     themoviedbApi
       .fetchMoviesCredits(movieId)
