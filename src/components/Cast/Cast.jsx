@@ -12,7 +12,7 @@ const Cast = ({ movieId }) => {
   /*fetching casts by movie id*/
   useEffect(() => {
     themoviedbApi
-      .fetchMoviesCredits(movieId)
+      .fetchCredits(movieId)
       .then(responseData => setCast(actorsFiltering(responseData.data.cast)))
       .catch(error => console.log(error.message));
   }, [movieId]);

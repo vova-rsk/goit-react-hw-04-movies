@@ -11,7 +11,7 @@ const HomePage = () => {
   /*fetching trending movies*/
   useEffect(() => {
     themoviedbApi
-      .fetchGetTrending()
+      .fetchTrends()
       .then(responseData => {
         const data = responseData.data.results;
         if (data) setTrendingMovies(data);

@@ -22,7 +22,7 @@ const MoviesPage = () => {
 
     if (query) {
       themoviedbApi
-        .fetchSearchMovies(query)
+        .fetchMovies(query)
         .then(responseData => {
           const data = responseData.data.results;
           if (data) setSearchResult(data);

@@ -7,7 +7,7 @@ const Reviews = ({ movieId }) => {
 
   useEffect(() => {
     themoviedbApi
-      .fetchMoviesReviews(movieId)
+      .fetchReviews(movieId)
       .then(responseData => setReviews(responseData.data.results))
       .catch(error => console.log(error.message));
   }, [movieId]);

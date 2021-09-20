@@ -32,7 +32,7 @@ const MovieDetailsPage = () => {
   /*fetch movie by id*/
   useEffect(() => {
     themoviedbApi
-      .fetchMoviesDetails(movieId)
+      .fetchMovie(movieId)
       .then(responseData => {
         const data = responseData.data;
         if (data) setMovie(data);
