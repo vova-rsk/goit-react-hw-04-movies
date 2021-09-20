@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import css from './MoviesPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
-import MoviesList from '../../components/MoviesList';
+import MoviesList from '../../components/Movies/MoviesList';
 
 const MoviesPage = () => {
   const [query, setQuery] = useState('');
@@ -31,6 +31,8 @@ const MoviesPage = () => {
           }
         })
         .catch(error => console.log(error.message));
+    } else {
+      setSearchResult([]);
     }
   }, [location.search]);
 
