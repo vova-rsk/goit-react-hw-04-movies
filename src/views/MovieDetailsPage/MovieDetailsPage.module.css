@@ -3,7 +3,21 @@
 }
 
 .button {
+  display: flex;
+  align-items: baseline;
+  height: 18px;
   cursor: pointer;
+}
+
+.label {
+  margin-left: 4px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.arrow {
+  width: 16px;
+  align-self: center;
 }
 
 .goBackBtn {
