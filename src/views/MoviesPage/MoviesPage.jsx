@@ -45,13 +45,16 @@ const MoviesPage = () => {
   return (
     <div>
       <div className={css.container}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={css.form}>
           <input
+            className={css.input}
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
           />
-          <button type="submit">Search</button>
+          <button type="submit" className={css.button}>
+            Search
+          </button>
         </form>
       </div>
 
