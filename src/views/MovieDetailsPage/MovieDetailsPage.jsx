@@ -11,8 +11,8 @@ import Cast from '../../components/Cast';
 import Reviews from '../../components/Reviews';
 import css from './MovieDetailsPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
-import MovieCard from '../../components/MovieCard';
-import MovieAdditionalInfo from '../../components/MovieAdditionalInfo';
+import MovieCard from '../../components/Movies/MovieCard';
+import MovieAdditionalInfo from '../../components/Movies/MovieAdditionalInfo';
 import { BsArrowLeft } from 'react-icons/bs';
 
 const MovieDetailsPage = () => {

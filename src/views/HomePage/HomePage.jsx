@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
-import MoviesList from '../../components/MoviesList';
+import MoviesList from '../../components/Movies/MoviesList';
 import css from './HomePage.module.css';
 
 const HomePage = () => {
