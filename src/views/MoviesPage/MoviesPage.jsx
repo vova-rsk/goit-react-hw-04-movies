@@ -8,9 +8,9 @@ import {
 import css from './MoviesPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 import MoviesList from '../../components/Movies/MoviesList';
+import SearchingForm from '../../components/SearchingForm';
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const { url } = useRouteMatch();
   const history = useHistory();
@@ -25,10 +25,7 @@ const MoviesPage = () => {
         .fetchSearchMovies(query)
         .then(responseData => {
           const data = responseData.data.results;
-          if (data) {
-            setSearchResult(data);
-            setQuery('');
-          }
+          if (data) setSearchResult(data);
         })
         .catch(error => console.log(error.message));
     } else {
@@ -36,30 +33,14 @@ const MoviesPage = () => {
     }
   }, [location.search]);
 
-  /*func for form submiting*/
-  const handleSubmit = e => {
-    e.preventDefault();
-    const currentQuery = query.trim();
-    if (!currentQuery) return;
-    history.push({ ...location, search: `query=${currentQuery}` });
+  /*func for changing current location*/
+  const searching = query => {
+    history.push({ ...location, search: `query=${query}` });
   };
 
   return (
-    <div>
-      <div className={css.container}>
-        <form onSubmit={handleSubmit} className={css.form}>
-          <input
-            className={css.input}
-            type="text"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-          />
-          <button type="submit" className={css.button}>
-            Search
-          </button>
-        </form>
-      </div>
-
+    <div className={css.container}>
+      <SearchingForm searching={searching} />
       <Route path={`${url}`}>
         {searchResult && (
           <MoviesList url={url} movies={searchResult} hash={location} />
