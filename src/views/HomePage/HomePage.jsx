@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
 import MoviesList from '../../components/MoviesList';
+import css from './HomePage.module.css';
 
 const HomePage = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -20,7 +21,10 @@ const HomePage = () => {
 
   return (
     trendingMovies && (
-      <MoviesList url={`/movies`} movies={trendingMovies} hash={location} />
+      <>
+        <h2 className={css.title}>Thrending today</h2>
+        <MoviesList url={`/movies`} movies={trendingMovies} hash={location} />
+      </>
     )
   );
 };

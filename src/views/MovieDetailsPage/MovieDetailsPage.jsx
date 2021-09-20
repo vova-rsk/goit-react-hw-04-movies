@@ -13,6 +13,7 @@ import css from './MovieDetailsPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 import MovieCard from '../../components/MovieCard';
 import MovieAdditionalInfo from '../../components/MovieAdditionalInfo';
+import { BsArrowLeft } from 'react-icons/bs';
 
 const MovieDetailsPage = () => {
   const [movie, setMovie] = useState({});
@@ -51,7 +52,8 @@ const MovieDetailsPage = () => {
       <div className={css.container}>
         <div>
           <button className={css.button} type="button" onClick={handleGoBack}>
-            Go back
+            <BsArrowLeft className={css.arrow} />
+            <span className={css.label}>Go back</span>
           </button>
           <MovieCard movie={movie} />
         </div>
