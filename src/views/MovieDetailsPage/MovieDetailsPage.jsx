@@ -45,12 +45,11 @@ const MovieDetailsPage = () => {
   const { url } = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
-  const prevLocation = useRef(null);
+  const customState = useRef(null);
 
-  // useEffect(() => {
-  //   const state = history.location.state;
-  //   if (state) prevLocation.current = state;
-  // }, [history.location.state]);
+  useEffect(() => {
+    if (location.state) customState.current = { ...location.state };
+  }, [location]);
 
   useEffect(() => {
     themoviedbApi
@@ -60,18 +59,12 @@ const MovieDetailsPage = () => {
   }, [movieId]);
 
   const handleGoBack = () => {
-    // const { state } = location;
-    // const { pathname, search } = prevLocation.current;
-    // console.log(state.from);
-    // if (state) {
-    //   history.push(state.from);
-    //   return;
-    // }
-    // console.log(history);
-    // history.push({ pathname: pathname, search: search });
+    customState.current
+      ? history.push(customState.current.from)
+      : history.push({ pathname: '/movies', search: '' });
   };
 
-  const isMovie = Object.keys(movie).length;
+  const isMovie = Boolean(Object.keys(movie));
 
   return (
     isMovie && (
