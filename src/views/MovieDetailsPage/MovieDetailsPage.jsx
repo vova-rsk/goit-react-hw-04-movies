@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import {
   useRouteMatch,
   useParams,
@@ -7,13 +7,14 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import Cast from '../../components/Cast';
-import Reviews from '../../components/Reviews';
+import { BsArrowLeft } from 'react-icons/bs';
 import css from './MovieDetailsPage.module.css';
 import themoviedbApi from '../../services/themoviedb-api';
 import MovieCard from '../../components/Movies/MovieCard';
 import MovieAdditionalInfo from '../../components/Movies/MovieAdditionalInfo';
-import { BsArrowLeft } from 'react-icons/bs';
+
+const Cast = lazy(() => import('../../components/Cast'));
+const Reviews = lazy(() => import('../../components/Reviews'));
 
 const MovieDetailsPage = () => {
   const [movie, setMovie] = useState({});
@@ -59,14 +60,16 @@ const MovieDetailsPage = () => {
         </div>
         <div>
           <MovieAdditionalInfo url={url} />
-          <Switch>
-            <Route path={`${url}/cast`}>
-              <Cast movieId={movieId} />
-            </Route>
-            <Route path={`${url}/reviews`}>
-              <Reviews movieId={movieId} />
-            </Route>
-          </Switch>
+          <Suspense fallback={<div>downloading...</div>}>
+            <Switch>
+              <Route path={`${url}/cast`}>
+                <Cast movieId={movieId} />
+              </Route>
+              <Route path={`${url}/reviews`}>
+                <Reviews movieId={movieId} />
+              </Route>
+            </Switch>
+          </Suspense>
         </div>
       </div>
     )
