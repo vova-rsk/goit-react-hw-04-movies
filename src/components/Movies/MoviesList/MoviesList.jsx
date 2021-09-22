@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import css from './MoviesList.module.css';
 
@@ -8,12 +8,12 @@ const MoviesList = ({ url, hash, movies }) => {
       <ul>
         {movies.map(movie => (
           <li key={movie.id} className={css.item}>
-            <NavLink
+            <Link
               to={{ pathname: `${url}/${movie.id}`, state: { from: hash } }}
               className={css.link}
             >
               {movie.title}
-            </NavLink>
+            </Link>
           </li>
         ))}
       </ul>
