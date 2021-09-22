@@ -26,8 +26,6 @@ const MoviesPage = () => {
     const query = new URLSearchParams(location.search).get('query');
 
     if (query) {
-      console.log(query);
-      if (!query) return;
       setStatus(STATUS.PENDING);
 
       themoviedbApi
