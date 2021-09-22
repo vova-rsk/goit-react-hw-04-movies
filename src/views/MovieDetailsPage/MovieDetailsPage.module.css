@@ -33,3 +33,9 @@
 .goBackBtn:hover {
   background-color: #b7b7b7;
 }
+
+.message {
+  padding: 10px;
+  font-size: 14px;
+  color: #b7b7b7;
+}
