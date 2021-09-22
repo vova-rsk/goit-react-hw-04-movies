@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
 import MoviesList from '../../components/Movies/MoviesList';
 import css from './HomePage.module.css';
@@ -8,7 +7,6 @@ import { STATUS } from '../../common/variables';
 
 const HomePage = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
-  const location = useLocation();
   const [status, setStatus] = useState(STATUS.IDLE);
 
   /*fetching trending movies*/
