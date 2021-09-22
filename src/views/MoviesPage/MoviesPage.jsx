@@ -61,9 +61,7 @@ const MoviesPage = () => {
       <ToastContainer />
       {status === STATUS.PENDING && <Loader />}
       <Route path={`${url}`}>
-        {searchResult && (
-          <MoviesList url={url} movies={searchResult} hash={location} />
-        )}
+        {searchResult && <MoviesList url={url} movies={searchResult} />}
       </Route>
     </div>
   );

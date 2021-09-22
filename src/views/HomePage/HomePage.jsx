@@ -34,7 +34,7 @@ const HomePage = () => {
     trendingMovies && (
       <>
         <h2 className={css.title}>Thrending today</h2>
-        <MoviesList url={`/movies`} movies={trendingMovies} hash={location} />
+        <MoviesList url={`/movies`} movies={trendingMovies} />
       </>
     )
   );
