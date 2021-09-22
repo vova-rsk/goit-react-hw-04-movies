@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import css from './App.module.css';
 import Navigation from './components/Navigation';
-import LoaderSpinner from './components/Loader/Loader';
+import Loader from './components/Loader/Loader';
 
 const HomePage = lazy(() => import('./views/HomePage'));
 const MoviesPage = lazy(() => import('./views/MoviesPage'));
@@ -13,7 +13,7 @@ function App() {
   return (
     <div className={css.container}>
       <Navigation />
-      <Suspense fallback={<LoaderSpinner />}>
+      <Suspense fallback={<Loader />}>
         <Switch>
           <Route path="/" component={HomePage} exact />
           <Route path="/movies" component={MoviesPage} exact />
